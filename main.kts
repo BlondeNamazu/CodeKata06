@@ -1,9 +1,11 @@
 import java.io.File
 
+val startTime = System.currentTimeMillis();
+
 val wordList = File("dictionary.txt")
   .readLines()
 
-// define word key by sorted char array extracted from original word
+// define word key by sorted char array extracted from original word, since anagrams has same word key
 // ex.) word key of "hoge" is "egho"
 fun convertWordToWordKey(word: String): String {
   return word.toCharArray().sorted().joinToString("")
@@ -51,3 +53,5 @@ anagramList
     println("(its size is:${ value.size })")
   }
 
+val endTime = System.currentTimeMillis()
+println("This calcuration took ${endTime - startTime} milli seconds")
