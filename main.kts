@@ -1,12 +1,9 @@
-// TODO
-// 1. print out all the combination of anagrams
-// 2. find longest words that are anagrams
-// 3. find the set of anagrams containing the most words
-
 import java.io.File
 
 val dictionary = File("dictionary.txt").readLines()
 
+// define word key by sorted char array extracted from original word
+// ex.) word key of "hoge" is "egho"
 fun convertWordToWordKey(word: String): String {
   return word.toCharArray().sorted().joinToString("")
 }
@@ -20,25 +17,33 @@ wordList.forEach { word ->
   anagramMap[wordKey] = (anagramMap[wordKey] ?: emptySet<String>()) + word
 }
 
+// NOTE: when Map is converted to List, each element is represented as (key, value) pair.
+// (key, value).first extracts key 
+// (key, value).second extracts value
+// here, "key" is word key and "value" is set of anagrams
+
 val anagramList = anagramMap
   .toList()
-  .filter { it.second.size >= 2 }
+  .filter { (_, value) -> value.size >= 2 }
 
-println("=====================================")
+println("\n=====================================")
 println("all anagrams are:")
 anagramList
-  .map { it.second }
+  .map { (_, value) -> value }
   .forEach(::println)
 println("(The number of anagrams is ${anagramList.size})")
-println("=====================================")
+
+println("\n=====================================")
 println("longest words that are anagrams:")
 val longestWordAnagram = anagramList
-  .maxBy{ it.first.length }
+  .maxBy{ (key, _) -> key.length }
 println("${ longestWordAnagram.second }")
 println("(its length is: ${ longestWordAnagram.first.length })")
-println("=====================================")
+
+println("\n=====================================")
 println("The set of anagrams containing the most words is:")
-val mostWordAnagram = anagramList.maxBy{ it.second.size }
+val mostWordAnagram = anagramList
+  .maxBy{ (_, value) -> value.size }
 println("${ mostWordAnagram.second }")
 println("(its size is:${ mostWordAnagram.second.size })")
 
