@@ -7,24 +7,12 @@ import java.io.File
 
 val dictionary = File("dictionary.txt").readLines()
 
-fun toLowercaseOnlyWord(originalWord: String): String {
-  var convertedWord = ""
-  originalWord.forEach { char ->
-    when {
-      'a' <= char && char <= 'z' -> convertedWord += char
-      'A' <= char && char <= 'Z' -> convertedWord += 'a' + (char - 'A')
-    }
-  }
-  return convertedWord
-}
-
 fun convertWordToWordKey(word: String): String {
   return word.toCharArray().sorted().joinToString("")
 }
 
 val wordList = File("dictionary.txt")
   .readLines()
-  .map { original -> toLowercaseOnlyWord(original) }
 
 val anagramMap = mutableMapOf<String, Set<String>>()
 wordList.forEach { word ->
@@ -53,5 +41,4 @@ println("The set of anagrams containing the most words is:")
 val mostWordAnagram = anagramList.maxBy{ it.second.size }
 println("${ mostWordAnagram.second }")
 println("(its size is:${ mostWordAnagram.second.size })")
-
 
