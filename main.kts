@@ -1,15 +1,13 @@
 import java.io.File
 
-val dictionary = File("dictionary.txt").readLines()
+val wordList = File("dictionary.txt")
+  .readLines()
 
 // define word key by sorted char array extracted from original word
 // ex.) word key of "hoge" is "egho"
 fun convertWordToWordKey(word: String): String {
   return word.toCharArray().sorted().joinToString("")
 }
-
-val wordList = File("dictionary.txt")
-  .readLines()
 
 val anagramMap = mutableMapOf<String, Set<String>>()
 wordList.forEach { word ->
@@ -35,15 +33,19 @@ println("(The number of anagrams is ${anagramList.size})")
 
 println("\n=====================================")
 println("longest words that are anagrams:")
-val longestWordAnagram = anagramList
-  .maxBy{ (key, _) -> key.length }
-println("${ longestWordAnagram.second }")
-println("(its length is: ${ longestWordAnagram.first.length })")
+anagramList
+  .maxBy{ (key, _) -> key.length } // extract the element with maximum key length
+  .let { (key, value) ->
+    println("$value")
+    println("(its length is: ${ key.length })")
+  }
 
 println("\n=====================================")
 println("The set of anagrams containing the most words is:")
-val mostWordAnagram = anagramList
-  .maxBy{ (_, value) -> value.size }
-println("${ mostWordAnagram.second }")
-println("(its size is:${ mostWordAnagram.second.size })")
+anagramList
+  .maxBy{ (_, value) -> value.size } // extract the element with maximum size of value
+  .let { (_, value) ->
+    println("$value")
+    println("(its size is:${ value.size })")
+  }
 
