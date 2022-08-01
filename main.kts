@@ -30,6 +30,7 @@ anagramList
   .map { (_, value) -> value }
   .forEach(::println)
 println("(The number of anagrams is ${anagramList.size})")
+println("(The number of words contained as anagram is ${anagramList.sumBy{it.second.size}})")
 
 println("\n=====================================")
 println("longest words that are anagrams:")
